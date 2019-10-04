@@ -1,0 +1,18 @@
+<%- |
+  Array[String[1]] $prunefs,
+  Boolean $prune_bind_mounts,
+  Array[String[1]] $prunepaths,
+  Array[String[1]] $prunenames,
+| -%>
+# updatedb.conf is maintained with puppet.
+
+<%- if $prune_bind_mounts { -%>
+PRUNE_BIND_MOUNTS = "yes"
+<%- } else { -%>
+PRUNE_BIND_MOUNTS = "no"
+<%- } -%>
+PRUNEFS = "<%= join(sort($prunefs),' ') %>"
+PRUNENAMES = "<%= join(sort($prunenames),' ') %>"
+PRUNEPATHS = "<%= join(sort($prunepaths),' ') %>"
+
+

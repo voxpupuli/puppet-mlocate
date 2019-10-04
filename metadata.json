@@ -1,0 +1,63 @@
+{
+  "name": "puppet-mlocate",
+  "version": "0.0.0-rc1",
+  "author": "Vox Pupuli",
+  "project_page": "https://github.com/voxpupuli/puppet-mlocate",
+  "summary": "Manages the /etc/updatedb.conf file and service",
+  "license": "Apache-2.0",
+  "description": "Manages the /etc/updatedb.conf file and service",
+  "source": "https://github.com/voxpupuli/puppet-mlocate",
+  "issues": "https://github.com/voxpupuli/puppet-mlocate/issues",
+  "tags": [
+    "mlocate",
+    "locate"
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.13.1 < 6.0.0"
+    },
+    {
+      "name": "camptocamp-systemd",
+      "version_requirement": ">= 2.6.0 < 3.0.0"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 5.5.8 < 7.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ]
+}
