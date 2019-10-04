@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Installed with puppet.
+
+nodevs=$(awk '$1 == "nodev" && $2 != "rootfs" && $2 != "zfs" { print $2 }' < /proc/filesystems)
+
+renice +19 -p $$ >/dev/null 2>&1
+ionice -c2 -n7 -p $$ >/dev/null 2>&1
+/usr/bin/updatedb -f "$nodevs"
+

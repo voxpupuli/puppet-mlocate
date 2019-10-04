@@ -1,0 +1,13 @@
+---
+mlocate::package_cron: /etc/cron.daily/mlocate
+
+mlocate::prunefs:
+  - fuse.sshfs
+  - fuse.glusterfs
+  - ceph
+  - fuse.ceph
+
+mlocate::prunepaths:
+  - /mnt
+  - /var/lib/yum/yumdb
+  - /var/lib/ceph
