@@ -1,5 +1,13 @@
 # mlocate
 
+[![License](https://img.shields.io/github/license/voxpupuli/puppet-mlocate.svg)](https://github.com/voxpupuli/puppet-mlocate/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-mlocate.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-mlocate)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-mlocate/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-mlocate)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/mlocate.svg)](https://forge.puppetlabs.com/puppet/mlocate)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/mlocate.svg)](https://forge.puppetlabs.com/puppet/mlocate)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/mlocate.svg)](https://forge.puppetlabs.com/puppet/mlocate)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/mlocate.svg)](https://forge.puppetlabs.com/puppet/mlocate)
+
 #### Table of Contents
 
 1. [Module Description - What the module does and why it is useful](#module-description)
