@@ -125,7 +125,7 @@ class mlocate::config (
     systemd::dropin_file{'period.conf':
       ensure  => $_dropin_file_ensure,
       unit    => 'mlocate-updatedb.timer',
-      content => "#Puppet installed\n[Timer]\nOnCalendar=${period}\n",
+      content => "#Puppet installed\n[Timer]\nOnCalendar=\nOnCalendar=${period}\n",
     }
 
     if $ensure {
