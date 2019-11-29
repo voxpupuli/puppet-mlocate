@@ -113,6 +113,7 @@ describe 'mlocate' do
           it { is_expected.not_to contain_file('/etc/cron.d/mlocate-puppet.cron') }
           it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
           it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('present') }
+          it { is_expected.to contain_systemd__dropin_file('period.conf').with_content(%r{^OnCalendar=$}) }
           it { is_expected.to contain_systemd__dropin_file('period.conf').with_content(%r{^OnCalendar=weekly$}) }
           it { is_expected.to contain_service('mlocate-updatedb.timer') }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_ensure(true) }
