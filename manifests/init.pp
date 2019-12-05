@@ -1,7 +1,8 @@
 #
 # @summary mlocate class , install and configure mlocate
 #
-# @example
+# @example Simple Case
+#
 #  class{'mlocate':
 #    prunepaths   => ['/afs', '/mnt' ],
 #    prunefs      => ['afs', 'fuse'],
@@ -17,7 +18,7 @@
 # @param prunenames List of directory or files names to match adn not include.
 # @param period Should the update interval be daily, weekly, monthly or infinite.
 # @param package_cron Path to a cron file entry to be purged.
-# @param fore_updatedb Should puppet run updatedb if no database already exists.
+# @param force_updatedb Should puppet run updatedb if no database already exists.
 #
 class mlocate (
   Boolean                                     $ensure = true,
