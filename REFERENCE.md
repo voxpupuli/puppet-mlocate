@@ -94,15 +94,11 @@ Path to a cron file entry to be purged.
 
 Default value: `undef`
 
-##### `fore_updatedb`
-
-Should puppet run updatedb if no database already exists.
-
 ##### `force_updatedb`
 
 Data type: `Boolean`
 
-
+Should puppet run updatedb if no database already exists.
 
 Default value: `false`
 
