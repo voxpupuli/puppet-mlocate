@@ -87,7 +87,7 @@ class mlocate::config (
       owner   => root,
       group   => root,
       mode    => '0644',
-      content => "#Puppet installed\n${_cron_time} /usr/local/bin/mlocate-wrapper\n",
+      content => "#Puppet installed\n${_cron_time} root /usr/local/bin/mlocate-wrapper\n",
     }
 
     $_updatedb_command = '/usr/local/bin/mlocate-wrapper'
