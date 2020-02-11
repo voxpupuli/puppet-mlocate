@@ -47,7 +47,10 @@ class mlocate::config (
   }
 
   if $periodic_method == 'cron' {
-    file{'/usr/local/bin/mlocate-wrapper':
+
+    $_updatedb_command = '/usr/local/bin/mlocate-wrapper'
+
+    file{$_updatedb_command:
       ensure => $_file_ensure,
       owner  => root,
       group  => root,
@@ -57,44 +60,72 @@ class mlocate::config (
 
     case $period {
       'daily': {
-        $_cron_time   = "${fqdn_rand(59,'mlocate')} ${fqdn_rand(24,'mlocate')} * * *"
-        $_cron_ensure = 'present'
+        $_cron_ensure = true
+        $_minute      = "${fqdn_rand(59,'mlocate')}"
+        $_hour        = "${fqdn_rand(24,'mlocate')}"
+        $_date        = '*'
+        $_month       = '*'
+        $_weekday     = '*'
       }
       'weekly': {
-        $_cron_time   = "${fqdn_rand(59,'mlocate')} ${fqdn_rand(24,'mlocate')} * * ${fqdn_rand(7,'mlocate')}"
-        $_cron_ensure = 'present'
+        $_cron_ensure = true
+        $_minute      = "${fqdn_rand(59,'mlocate')}"
+        $_hour        = "${fqdn_rand(24,'mlocate')}"
+        $_date        = '*'
+        $_month       = '*'
+        $_weekday     = "${fqdn_rand(7,'mlocate')}"
       }
       'monthly': {
-        $_cron_time   = "${fqdn_rand(59,'mlocate')} ${fqdn_rand(24,'mlocate')} ${fqdn_rand(28,'mlocate')} * *"
-        $_cron_ensure = 'present'
+        $_cron_ensure = true
+        $_minute      = "${fqdn_rand(59,'mlocate')}"
+        $_hour        = "${fqdn_rand(24,'mlocate')}"
+        $_date        = "${fqdn_rand(28,'mlocate')}"
+        $_month       = '*'
+        $_weekday     = '*'
+
       }
       'infinite': {
-        $_cron_time   = 'irrelevent'
-        $_cron_ensure = 'absent'
+        $_cron_ensure = false
+        $_minute      = undef
+        $_hour        = undef
+        $_date        = undef
+        $_month       = undef
+        $_weekday     = undef
       }
       default: {
         fail('Undefined period')
       }
     }
 
-    $_cron_file_ensure = $ensure ? {
-      true  => $_cron_ensure,
-      false => 'absent',
-    }
-
+    # Remove old filename that cron::job does not support with a '.' in
+    # Last in version 1.0.0
     file{'/etc/cron.d/mlocate-puppet.cron':
-      ensure  => $_cron_file_ensure,
-      owner   => root,
-      group   => root,
-      mode    => '0644',
-      content => "#Puppet installed\n${_cron_time} /usr/local/bin/mlocate-wrapper\n",
+      ensure => 'absent',
     }
 
-    $_updatedb_command = '/usr/local/bin/mlocate-wrapper'
+    if $_cron_ensure and $ensure {
+      $_cron_job_ensure = 'present'
+    } else {
+      $_cron_job_ensure = 'absent'
+    }
+
+    cron::job{'mlocate-puppet':
+      ensure      => $_cron_job_ensure,
+      command     => '/usr/local/bin/mlocate-wrapper',
+      user        => 'root',
+      minute      => $_minute,
+      hour        => $_hour,
+      date        => $_date,
+      weekday     => $_weekday,
+      month       => $_month,
+      description => 'Update mlocate database',
+    }
 
     # End of cron based systemd
 
   } elsif $periodic_method == 'timer' {
+
+    $_updatedb_command = '/usr/bin/systemctl start mlocate-updatedb.service'
 
     # daily is default so no dropin required.
     case $period {
@@ -135,9 +166,6 @@ class mlocate::config (
         enable => $_timer_active,
       }
     }
-
-    $_updatedb_command = '/usr/bin/systemctl start mlocate-updatedb.service'
-
   }
 
   # Run updatedb if no database present.

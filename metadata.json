@@ -20,6 +20,10 @@
     {
       "name": "camptocamp-systemd",
       "version_requirement": ">= 2.6.0 < 3.0.0"
+    },
+    {
+      "name": "puppet-cron",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
     }
   ],
   "requirements": [
