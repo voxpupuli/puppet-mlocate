@@ -2,3 +2,4 @@ fixtures:
   repositories:
     stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib"
     systemd: "https://github.com/camptocamp/puppet-systemd"
+    cron: "https://github.com/voxpupuli/puppet-cron"
