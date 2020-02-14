@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v1.0.1](https://github.com/voxpupuli/puppet-mlocate/tree/v1.0.1) (2020-02-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v1.0.0...v1.0.1)
+
+**Fixed bugs:**
+
+- Add username field to /etc/cron.d entries / introduce puppet/cron as new dependency [\#12](https://github.com/voxpupuli/puppet-mlocate/pull/12) ([traylenator](https://github.com/traylenator))
+- Reset OnCalendar event in Timer before adding new one. [\#6](https://github.com/voxpupuli/puppet-mlocate/pull/6) ([traylenator](https://github.com/traylenator))
+
+**Merged pull requests:**
+
+- Correct parameter name in documentation [\#11](https://github.com/voxpupuli/puppet-mlocate/pull/11) ([traylenator](https://github.com/traylenator))
+- Allow puppetlabs/stdlib 6.x [\#10](https://github.com/voxpupuli/puppet-mlocate/pull/10) ([dhoppe](https://github.com/dhoppe))
+
 ## [v1.0.0](https://github.com/voxpupuli/puppet-mlocate/tree/v1.0.0) (2019-11-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/f3ac25fb28c8e78f37ee8b1e673ce6e742670f4e...v1.0.0)
