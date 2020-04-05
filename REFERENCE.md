@@ -22,9 +22,10 @@ mlocate class , install and configure mlocate
 
 #### Examples
 
-##### 
+##### Simple Case
 
 ```puppet
+
 class{'mlocate':
   prunepaths   => ['/afs', '/mnt' ],
   prunefs      => ['afs', 'fuse'],

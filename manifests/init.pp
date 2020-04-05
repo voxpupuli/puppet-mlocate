@@ -1,7 +1,8 @@
 #
 # @summary mlocate class , install and configure mlocate
 #
-# @example
+# @example Simple Case
+#
 #  class{'mlocate':
 #    prunepaths   => ['/afs', '/mnt' ],
 #    prunefs      => ['afs', 'fuse'],
