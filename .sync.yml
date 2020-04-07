@@ -6,3 +6,5 @@
     - set: centos7-64
     - set: centos8-64
 
+spec/spec_helper_acceptance.rb:
+  unmanaged: false
