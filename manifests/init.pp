@@ -31,7 +31,6 @@ class mlocate (
   Boolean                                     $force_updatedb = false,
 
 ) {
-
   # Is the package cron or timer based?
   case $facts['os']['family'] {
     'RedHat': {
@@ -53,5 +52,4 @@ class mlocate (
 
   contain mlocate::install
   contain mlocate::config
-
 }

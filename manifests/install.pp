@@ -3,17 +3,15 @@
 #
 # @api private
 #
-class mlocate::install(
+class mlocate::install (
   $ensure = $mlocate::ensure,
 ) {
-
   $_pkg_ensure = $ensure ? {
     true  => 'present',
     false => 'absent',
   }
 
-  package{'mlocate':
+  package { 'mlocate':
     ensure => $_pkg_ensure,
   }
-
 }
