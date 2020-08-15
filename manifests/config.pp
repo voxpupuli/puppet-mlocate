@@ -14,31 +14,30 @@ class mlocate::config (
   $periodic_method   = $mlocate::periodic_method,
   $force_updatedb    = $mlocate::force_updatedb,
 ) {
-
   $_file_ensure = $ensure ? {
     true  => 'file',
     false => 'absent',
   }
 
   if $ensure {
-    file{'/etc/updatedb.conf':
-      ensure  => 'present',
+    file { '/etc/updatedb.conf':
+      ensure  => 'file',
       mode    => '0644',
       owner   => root,
       group   => root,
       content => epp('mlocate/updatedb.conf.epp',{
-        'prunefs'           => $prunefs,
-        'prune_bind_mounts' => $prune_bind_mounts,
-        'prunepaths'        => $prunepaths,
-        'prunenames'        => $prunenames,
+          'prunefs'           => $prunefs,
+          'prune_bind_mounts' => $prune_bind_mounts,
+          'prunepaths'        => $prunepaths,
+          'prunenames'        => $prunenames,
       }),
     }
   }
 
   # Purge package cron if there is one.
   if $package_cron and $ensure {
-    file{$package_cron:
-      ensure  => 'present',
+    file { $package_cron:
+      ensure  => 'file',
       owner   => root,
       group   => root,
       mode    => '0700',
@@ -47,10 +46,9 @@ class mlocate::config (
   }
 
   if $periodic_method == 'cron' {
-
     $_updatedb_command = '/usr/local/bin/mlocate-wrapper'
 
-    file{$_updatedb_command:
+    file { $_updatedb_command:
       ensure => $_file_ensure,
       owner  => root,
       group  => root,
@@ -82,7 +80,6 @@ class mlocate::config (
         $_date        = "${fqdn_rand(28,'mlocate')}"
         $_month       = '*'
         $_weekday     = '*'
-
       }
       'infinite': {
         $_cron_ensure = false
@@ -99,7 +96,7 @@ class mlocate::config (
 
     # Remove old filename that cron::job does not support with a '.' in
     # Last in version 1.0.0
-    file{'/etc/cron.d/mlocate-puppet.cron':
+    file { '/etc/cron.d/mlocate-puppet.cron':
       ensure => 'absent',
     }
 
@@ -109,7 +106,7 @@ class mlocate::config (
       $_cron_job_ensure = 'absent'
     }
 
-    cron::job{'mlocate-puppet':
+    cron::job { 'mlocate-puppet':
       ensure      => $_cron_job_ensure,
       command     => '/usr/local/bin/mlocate-wrapper',
       user        => 'root',
@@ -122,9 +119,7 @@ class mlocate::config (
     }
 
     # End of cron based systemd
-
   } elsif $periodic_method == 'timer' {
-
     $_updatedb_command = '/usr/bin/systemctl start mlocate-updatedb.service'
 
     # daily is default so no dropin required.
@@ -153,7 +148,7 @@ class mlocate::config (
       false => 'absent',
     }
 
-    systemd::dropin_file{'period.conf':
+    systemd::dropin_file { 'period.conf':
       ensure  => $_dropin_file_ensure,
       unit    => 'mlocate-updatedb.timer',
       content => "#Puppet installed\n[Timer]\nOnCalendar=\nOnCalendar=${period}\n",
@@ -161,7 +156,7 @@ class mlocate::config (
 
     if $ensure {
       Class['systemd::systemctl::daemon_reload'] -> Service['mlocate-updatedb.timer']
-      service{'mlocate-updatedb.timer':
+      service { 'mlocate-updatedb.timer':
         ensure => $_timer_active,
         enable => $_timer_active,
       }
@@ -170,10 +165,9 @@ class mlocate::config (
 
   # Run updatedb if no database present.
   if $force_updatedb and $ensure {
-    exec{'force_updatedb':
+    exec { 'force_updatedb':
       command => $_updatedb_command,
       creates => '/var/lib/mlocate/mlocate.db',
     }
   }
-
 }
