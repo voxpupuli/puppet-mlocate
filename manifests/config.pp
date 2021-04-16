@@ -141,8 +141,6 @@ class mlocate::config (
       }
     }
 
-    contain systemd::systemctl::daemon_reload
-
     $_dropin_file_ensure = $ensure ? {
       true  => $_dropin_ensure,
       false => 'absent',
@@ -155,7 +153,6 @@ class mlocate::config (
     }
 
     if $ensure {
-      Class['systemd::systemctl::daemon_reload'] -> Service['mlocate-updatedb.timer']
       service { 'mlocate-updatedb.timer':
         ensure => $_timer_active,
         enable => $_timer_active,
