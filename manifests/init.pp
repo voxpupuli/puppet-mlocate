@@ -35,7 +35,7 @@ class mlocate (
   case $facts['os']['family'] {
     'RedHat': {
       case $facts['os']['release']['major'] {
-        '6','7': {
+        '7': {
           $periodic_method = 'cron'
         }
         default: {
