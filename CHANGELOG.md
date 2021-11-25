@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.0.0](https://github.com/voxpupuli/puppet-mlocate/tree/v2.0.0) (2021-11-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v1.1.0...v2.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 5 support; enable Puppet 7 support [\#23](https://github.com/voxpupuli/puppet-mlocate/pull/23) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Centos 6 support [\#22](https://github.com/voxpupuli/puppet-mlocate/pull/22) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- camptocamp/systemd: allow 3.x [\#21](https://github.com/voxpupuli/puppet-mlocate/pull/21) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 7.x [\#20](https://github.com/voxpupuli/puppet-mlocate/pull/20) ([bastelfreak](https://github.com/bastelfreak))
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#25](https://github.com/voxpupuli/puppet-mlocate/pull/25) ([smortex](https://github.com/smortex))
+- switch from camptocamp/systemd to voxpupuli/systemd [\#24](https://github.com/voxpupuli/puppet-mlocate/pull/24) ([bastelfreak](https://github.com/bastelfreak))
+- modulesync 3.0.0 & puppet-lint updates [\#17](https://github.com/voxpupuli/puppet-mlocate/pull/17) ([bastelfreak](https://github.com/bastelfreak))
+- Use voxpupuli-acceptance [\#16](https://github.com/voxpupuli/puppet-mlocate/pull/16) ([ekohl](https://github.com/ekohl))
+- Give example a title in strings doc [\#7](https://github.com/voxpupuli/puppet-mlocate/pull/7) ([traylenator](https://github.com/traylenator))
+
 ## [v1.1.0](https://github.com/voxpupuli/puppet-mlocate/tree/v1.1.0) (2020-02-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v1.0.0...v1.1.0)
