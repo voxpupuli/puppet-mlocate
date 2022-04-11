@@ -85,7 +85,7 @@ describe 'mlocate' do
         it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s+=\s+"no way"$}) }
       end
 
-      context 'with period set to daily (the default in package)' do
+      context 'with period set to daily (the default in package)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'daily'
@@ -117,7 +117,7 @@ describe 'mlocate' do
         end
       end
 
-      context 'with period set to weekly (the default in package)' do
+      context 'with period set to weekly (the default in package)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'weekly'
@@ -149,7 +149,7 @@ describe 'mlocate' do
         end
       end
 
-      context 'with period set to monthly (the default in package)' do
+      context 'with period set to monthly (the default in package)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'monthly'
@@ -180,7 +180,7 @@ describe 'mlocate' do
         end
       end
 
-      context 'with period set to infinite (never run)' do
+      context 'with period set to infinite (never run)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'infinite'
