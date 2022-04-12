@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe 'mlocate' do
   on_supported_os.each do |os, facts|
@@ -66,6 +68,7 @@ describe 'mlocate' do
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
         end
       end
+
       context 'with updatedb.conf parameters set' do
         let(:params) do
           {
@@ -81,7 +84,8 @@ describe 'mlocate' do
         it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/xthat /ythis"$}) }
         it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s+=\s+"no way"$}) }
       end
-      context 'with period set to daily (the default in package)' do
+
+      context 'with period set to daily (the default in package)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'daily'
@@ -112,7 +116,8 @@ describe 'mlocate' do
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
         end
       end
-      context 'with period set to weekly (the default in package)' do
+
+      context 'with period set to weekly (the default in package)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'weekly'
@@ -143,7 +148,8 @@ describe 'mlocate' do
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
         end
       end
-      context 'with period set to monthly (the default in package)' do
+
+      context 'with period set to monthly (the default in package)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'monthly'
@@ -173,7 +179,8 @@ describe 'mlocate' do
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
         end
       end
-      context 'with period set to infinite (never run)' do
+
+      context 'with period set to infinite (never run)' do # rubocop:disable RSpec/EmptyExampleGroup
         let(:params) do
           {
             period: 'infinite'
@@ -195,6 +202,7 @@ describe 'mlocate' do
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(false) }
         end
       end
+
       context 'with force_updatedb set to true' do
         let(:params) do
           {
@@ -204,6 +212,7 @@ describe 'mlocate' do
 
         it { is_expected.to contain_exec('force_updatedb') }
         it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/mlocate/mlocate.db') }
+
         case facts[:os]['release']['major']
         when '6', '7'
           it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
@@ -211,6 +220,7 @@ describe 'mlocate' do
           it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start mlocate-updatedb.service') }
         end
       end
+
       context 'with ensure set to false' do
         let(:params) do
           {
@@ -223,6 +233,7 @@ describe 'mlocate' do
         it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
         it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
         it { is_expected.not_to contain_exec('force_updatedb') }
+
         case facts[:os]['release']['major']
         when '6', '7'
           it { is_expected.not_to contain_systemd__dropin_file('period.conf') }

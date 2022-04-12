@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'mlocate class' do
@@ -16,10 +18,12 @@ describe 'mlocate class' do
     describe package('mlocate') do
       it { is_expected.to be_installed }
     end
+
     describe file('/etc/updatedb.conf') do
       it { is_expected.to be_file }
     end
   end
+
   context 'forceing an mlocate run' do
     # Using puppet_apply as a helper
     it 'works idempotently with no errors' do
@@ -42,6 +46,7 @@ describe 'mlocate class' do
       its(:stdout) { is_expected.to match %r{/etc/passwd} }
     end
   end
+
   context 'mlocate absent' do
     # Using puppet_apply as a helper
     it 'works idempotently with no errors' do
