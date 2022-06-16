@@ -1,0 +1,20 @@
+---
+mlocate::prunefs:
+  - ceph
+  - fuse.sshfs
+  - fuse.ceph
+
+mlocate::prunepaths:
+  - /mnt
+  - /var/cache/fscache
+  - /var/lib/ceph
+  - /var/lib/dnf/yumdb
+  - /var/lib/yum/yumdb
+  - /var/lib/mock
+  - /sysroot/ostree/deploy
+
+mlocate::prunenames:
+  - '{arch}'
+  - .arch-ids
+  - .bzr
+  - CVS
