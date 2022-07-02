@@ -14,5 +14,3 @@ PRUNE_BIND_MOUNTS = "no"
 PRUNEFS = "<%= join(sort($prunefs),' ') %>"
 PRUNENAMES = "<%= join(sort($prunenames),' ') %>"
 PRUNEPATHS = "<%= join(sort($prunepaths),' ') %>"
-
-
