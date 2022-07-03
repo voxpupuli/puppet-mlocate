@@ -8,7 +8,7 @@
 
 #### Public Classes
 
-* [`mlocate`](#mlocate): mlocate class , install and configure mlocate
+* [`mlocate`](#mlocate): mlocate class, install and configure mlocate
 
 #### Private Classes
 
@@ -19,7 +19,7 @@
 
 ### <a name="mlocate"></a>`mlocate`
 
-mlocate class , install and configure mlocate
+mlocate class, install and configure mlocate
 
 #### Examples
 
@@ -40,6 +40,7 @@ class{'mlocate':
 
 The following parameters are available in the `mlocate` class:
 
+* [`package_names`](#package_names)
 * [`ensure`](#ensure)
 * [`prunefs`](#prunefs)
 * [`prune_bind_mounts`](#prune_bind_mounts)
@@ -48,6 +49,14 @@ The following parameters are available in the `mlocate` class:
 * [`period`](#period)
 * [`package_cron`](#package_cron)
 * [`force_updatedb`](#force_updatedb)
+
+##### <a name="package_names"></a>`package_names`
+
+Data type: `Array[String[1]]`
+
+List of packages to track
+
+Default value: `['mlocate',]`
 
 ##### <a name="ensure"></a>`ensure`
 
