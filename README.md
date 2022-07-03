@@ -54,3 +54,10 @@ mlocate::prunepaths:
   - /cvmfs
 ```
 
+If you wish to switch to `plocate` instead you can use the `package_names` parameter to switch to that implementation instead.
+
+```yaml
+---
+mlocate::package_names:
+  - plocate
+```

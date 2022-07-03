@@ -4,6 +4,7 @@
 # @api private
 #
 class mlocate::install (
+  $package_names = $mlocate::package_names,
   $ensure = $mlocate::ensure,
 ) {
   $_pkg_ensure = $ensure ? {
@@ -11,7 +12,7 @@ class mlocate::install (
     false => 'absent',
   }
 
-  package { 'mlocate':
+  package { $package_names:
     ensure => $_pkg_ensure,
   }
 }

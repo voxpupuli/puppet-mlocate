@@ -1,5 +1,5 @@
 #
-# @summary mlocate class , install and configure mlocate
+# @summary mlocate class, install and configure mlocate
 #
 # @example Simple Case
 #
@@ -11,6 +11,7 @@
 #    force_update => true,
 #  }
 #
+# @param package_names List of packages to track
 # @param ensure Install mlocate or remove mlocate
 # @param prunefs List of filesystem types to ignore
 # @param prune_bind_mounts Should bind mounts be searched?
@@ -21,6 +22,7 @@
 # @param force_updatedb Should puppet run updatedb if no database already exists.
 #
 class mlocate (
+  Array[String[1]]                            $package_names = ['mlocate',],
   Boolean                                     $ensure = true,
   Array[String[1]]                            $prunefs = [],
   Boolean                                     $prune_bind_mounts = true,
