@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.1.0](https://github.com/voxpupuli/puppet-mlocate/tree/v2.1.0) (2022-07-03)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Add package\_names parameter [\#32](https://github.com/voxpupuli/puppet-mlocate/pull/32) ([jcpunk](https://github.com/jcpunk))
+- Add EL9 support [\#31](https://github.com/voxpupuli/puppet-mlocate/pull/31) ([jcpunk](https://github.com/jcpunk))
+
+**Merged pull requests:**
+
+- adapt to rubocop 1.22.3 [\#30](https://github.com/voxpupuli/puppet-mlocate/pull/30) ([traylenator](https://github.com/traylenator))
+
 ## [v2.0.0](https://github.com/voxpupuli/puppet-mlocate/tree/v2.0.0) (2021-11-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v1.1.0...v2.0.0)
