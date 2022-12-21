@@ -25,7 +25,7 @@ class mlocate::config (
       mode    => '0644',
       owner   => root,
       group   => root,
-      content => epp('mlocate/updatedb.conf.epp',{
+      content => epp('mlocate/updatedb.conf.epp', {
           'prunefs'           => $prunefs,
           'prune_bind_mounts' => $prune_bind_mounts,
           'prunepaths'        => $prunepaths,
