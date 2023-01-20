@@ -21,14 +21,14 @@ describe 'mlocate' do
         case facts[:os]['release']['major']
         when '7'
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s+=\s+"9p afs anon_inodefs auto autofs bdev binfmt_misc ceph cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.ceph fuse.glusterfs fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs"$}) }
-          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/ceph /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/cache/yum /var/lib/ceph /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
         else
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s+=\s+"9p afs anon_inodefs auto autofs bdev binfmt_misc ceph cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.ceph fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs"$}) }
 
           if facts[:os]['release']['major'] == '8'
-            it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/ceph /var/lib/dnf/yumdb /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
+            it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/cache/dnf /var/cache/yum /var/lib/ceph /var/lib/dnf/yumdb /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
           else
-            it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /sysroot/ostree/deploy /tmp /udev /var/cache/ccache /var/cache/fscache /var/lib/ceph /var/lib/dnf/yumdb /var/lib/mock /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
+            it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /sysroot/ostree/deploy /tmp /udev /var/cache/ccache /var/cache/dnf /var/cache/fscache /var/cache/yum /var/lib/ceph /var/lib/dnf/yumdb /var/lib/mock /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
           end
         end
 

@@ -6,7 +6,9 @@ mlocate::prunefs:
 
 mlocate::prunepaths:
   - /mnt
+  - /var/cache/dnf
   - /var/cache/fscache
+  - /var/cache/yum
   - /var/lib/ceph
   - /var/lib/dnf/yumdb
   - /var/lib/yum/yumdb
