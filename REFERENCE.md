@@ -40,17 +40,17 @@ class{'mlocate':
 
 The following parameters are available in the `mlocate` class:
 
-* [`package_names`](#package_names)
-* [`ensure`](#ensure)
-* [`prunefs`](#prunefs)
-* [`prune_bind_mounts`](#prune_bind_mounts)
-* [`prunepaths`](#prunepaths)
-* [`prunenames`](#prunenames)
-* [`period`](#period)
-* [`package_cron`](#package_cron)
-* [`force_updatedb`](#force_updatedb)
+* [`package_names`](#-mlocate--package_names)
+* [`ensure`](#-mlocate--ensure)
+* [`prunefs`](#-mlocate--prunefs)
+* [`prune_bind_mounts`](#-mlocate--prune_bind_mounts)
+* [`prunepaths`](#-mlocate--prunepaths)
+* [`prunenames`](#-mlocate--prunenames)
+* [`period`](#-mlocate--period)
+* [`package_cron`](#-mlocate--package_cron)
+* [`force_updatedb`](#-mlocate--force_updatedb)
 
-##### <a name="package_names"></a>`package_names`
+##### <a name="-mlocate--package_names"></a>`package_names`
 
 Data type: `Array[String[1]]`
 
@@ -58,15 +58,15 @@ List of packages to track
 
 Default value: `['mlocate',]`
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-mlocate--ensure"></a>`ensure`
 
 Data type: `Boolean`
 
 Install mlocate or remove mlocate
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="prunefs"></a>`prunefs`
+##### <a name="-mlocate--prunefs"></a>`prunefs`
 
 Data type: `Array[String[1]]`
 
@@ -74,15 +74,15 @@ List of filesystem types to ignore
 
 Default value: `[]`
 
-##### <a name="prune_bind_mounts"></a>`prune_bind_mounts`
+##### <a name="-mlocate--prune_bind_mounts"></a>`prune_bind_mounts`
 
 Data type: `Boolean`
 
 Should bind mounts be searched?
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="prunepaths"></a>`prunepaths`
+##### <a name="-mlocate--prunepaths"></a>`prunepaths`
 
 Data type: `Array[Stdlib::Unixpath]`
 
@@ -90,7 +90,7 @@ List of file systems paths not to search
 
 Default value: `[]`
 
-##### <a name="prunenames"></a>`prunenames`
+##### <a name="-mlocate--prunenames"></a>`prunenames`
 
 Data type: `Array[String[1]]`
 
@@ -98,7 +98,7 @@ List of directory or files names to match adn not include.
 
 Default value: `[]`
 
-##### <a name="period"></a>`period`
+##### <a name="-mlocate--period"></a>`period`
 
 Data type: `Enum['infinite','daily','weekly','monthly']`
 
@@ -106,19 +106,19 @@ Should the update interval be daily, weekly, monthly or infinite.
 
 Default value: `'daily'`
 
-##### <a name="package_cron"></a>`package_cron`
+##### <a name="-mlocate--package_cron"></a>`package_cron`
 
 Data type: `Optional[Stdlib::Unixpath]`
 
 Path to a cron file entry to be purged.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="force_updatedb"></a>`force_updatedb`
+##### <a name="-mlocate--force_updatedb"></a>`force_updatedb`
 
 Data type: `Boolean`
 
 Should puppet run updatedb if no database already exists.
 
-Default value: ``false``
+Default value: `false`
 
