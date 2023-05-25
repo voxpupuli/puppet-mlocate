@@ -44,7 +44,9 @@
     {
       "operatingsystem": "Fedora",
       "operatingsystemrelease": [
-        "36"
+        "36",
+        "37",
+        "38"
       ]
     },
 
