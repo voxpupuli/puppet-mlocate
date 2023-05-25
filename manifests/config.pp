@@ -13,6 +13,7 @@ class mlocate::config (
   $package_cron      = $mlocate::package_cron,
   $periodic_method   = $mlocate::periodic_method,
   $force_updatedb    = $mlocate::force_updatedb,
+  $locate            = $mlocate::locate,
 ) {
   $_file_ensure = $ensure ? {
     true  => 'file',
@@ -46,6 +47,9 @@ class mlocate::config (
   }
 
   if $periodic_method == 'cron' {
+    if $locate != 'mlocate' {
+      fail('Old cron based configuration is only supported with \$locate ==  mlocate')
+    }
     $_updatedb_command = '/usr/local/bin/mlocate-wrapper'
 
     file { $_updatedb_command:
@@ -120,7 +124,7 @@ class mlocate::config (
 
     # End of cron based systemd
   } elsif $periodic_method == 'timer' {
-    $_updatedb_command = '/usr/bin/systemctl start mlocate-updatedb.service'
+    $_updatedb_command = "/usr/bin/systemctl start ${locate}-updatedb.service"
 
     # daily is default so no dropin required.
     case $period {
@@ -148,12 +152,12 @@ class mlocate::config (
 
     systemd::dropin_file { 'period.conf':
       ensure  => $_dropin_file_ensure,
-      unit    => 'mlocate-updatedb.timer',
+      unit    => "${locate}-updatedb.timer",
       content => "#Puppet installed\n[Timer]\nOnCalendar=\nOnCalendar=${period}\n",
     }
 
     if $ensure {
-      service { 'mlocate-updatedb.timer':
+      service { "${locate}-updatedb.timer":
         ensure => $_timer_active,
         enable => $_timer_active,
       }
@@ -164,7 +168,7 @@ class mlocate::config (
   if $force_updatedb and $ensure {
     exec { 'force_updatedb':
       command => $_updatedb_command,
-      creates => '/var/lib/mlocate/mlocate.db',
+      creates => "/var/lib/${locate}/${locate}.db",
     }
   }
 }

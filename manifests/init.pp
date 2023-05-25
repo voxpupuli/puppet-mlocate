@@ -1,5 +1,5 @@
 #
-# @summary mlocate class, install and configure mlocate
+# @summary mlocate class, install and configure mlocate or plocate
 #
 # @example Simple Case
 #
@@ -11,7 +11,13 @@
 #    force_update => true,
 #  }
 #
-# @param package_names List of packages to track
+# @example Use plocate rather than mlocate
+#  class{ 'mlocate':
+#    locate => 'plocate',
+#  }
+#
+# @param package_names Deprecated
+# @param locate Use plocate or mlocate, default per OS in hiera
 # @param ensure Install mlocate or remove mlocate
 # @param prunefs List of filesystem types to ignore
 # @param prune_bind_mounts Should bind mounts be searched?
@@ -22,7 +28,8 @@
 # @param force_updatedb Should puppet run updatedb if no database already exists.
 #
 class mlocate (
-  Array[String[1]]                            $package_names = ['mlocate',],
+  Enum['mlocate','plocate']                   $locate,
+  Optional[Array[String[1]]]                  $package_names = undef,
   Boolean                                     $ensure = true,
   Array[String[1]]                            $prunefs = [],
   Boolean                                     $prune_bind_mounts = true,
@@ -33,6 +40,18 @@ class mlocate (
   Boolean                                     $force_updatedb = false,
 
 ) {
+  if $package_names {
+    fail('Setting \$package_names explicitly is deprecated, the new locate parameter can be used to specify mlocate or plocate')
+  }
+
+  if $facts['os']['name'] == 'Fedora' and  versioncmp($facts['os']['release']['major'],'37') >= 0 and $locate == 'mlocate' {
+    fail('mlocate is obsoleted by plocate and \$locate cannot be set \'mlocate\'')
+  }
+
+  if $facts['os']['release']['major'] == '7' and $locate == 'plocate' {
+    fail('plocate is not available on EL7')
+  }
+
   # Is the package cron or timer based?
   case $facts['os']['family'] {
     'RedHat': {

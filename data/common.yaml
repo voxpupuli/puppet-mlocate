@@ -8,6 +8,8 @@ lookup_options:
   mlocate::prunepaths:
     merge: unique
 
+mlocate::locate: mlocate
+
 mlocate::prunenames:
   - .git
   - .hg

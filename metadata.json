@@ -42,6 +42,13 @@
       ]
     },
     {
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "36"
+      ]
+    },
+
+    {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "7",

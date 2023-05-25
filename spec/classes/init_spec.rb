@@ -13,7 +13,7 @@ describe 'mlocate' do
         it { is_expected.to contain_class('mlocate::install') }
         it { is_expected.to contain_class('mlocate::config') }
         it { is_expected.to contain_file('/etc/updatedb.conf') }
-        it { is_expected.to contain_package('mlocate') }
+
         it { is_expected.not_to contain_exec('force_updatedb') }
 
         # Test default contents of the configurations files.
@@ -40,7 +40,22 @@ describe 'mlocate' do
         end
 
         it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNE_BIND_MOUNTS\s+=\s+"yes"$}) }
+      end
 
+      context 'with locate set to mlocate' do
+        let(:params) do
+          {
+            locate: 'mlocate'
+          }
+        end
+
+        case facts[:os]['release']['major']
+        when '7', '8', '9', '36'
+          it { is_expected.to contain_package('mlocate') }
+          it { is_expected.not_to contain_service('plocate-updatedb.timer') }
+        else
+          it { is_expected.to compile.and_raise_error(%r{mlocate is obsoleted by plocate and}) }
+        end
         case facts[:os]['release']['major']
         when '7'
           it { is_expected.to contain_file('/etc/cron.d/mlocate-puppet.cron').with_ensure('absent') }
@@ -54,20 +69,58 @@ describe 'mlocate' do
           it { is_expected.to contain_cron__job('mlocate-puppet').with_month('*') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_user('root') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_command('/usr/local/bin/mlocate-wrapper') }
-
-          it { is_expected.to contain_file('/usr/local/bin/mlocate-wrapper') }
           it { is_expected.to contain_file('/usr/local/bin/mlocate-wrapper').with_source('puppet:///modules/mlocate/mlocate-wrapper') }
           it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
           it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
-        else
+        when '8', '9', '36'
+          it { is_expected.not_to contain_file('/usr/local/bin/mlocate-wrapper') }
           it { is_expected.not_to contain_file('/etc/cron.d/mlocate-puppet.cron') }
           it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
           it { is_expected.not_to contain_cron__job('mlocate-puppet') }
-          it { is_expected.not_to contain_file('/usr/local/bin/mlocate-wrapper') }
+
           it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('absent') }
+
+          it {
+            is_expected.to contain_systemd__dropin_file('period.conf').with(
+              {
+                ensure: 'absent',
+                unit: 'mlocate-updatedb.timer',
+              }
+            )
+          }
+
           it { is_expected.to contain_service('mlocate-updatedb.timer') }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_ensure(true) }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
+        else
+          it { is_expected.to compile.and_raise_error(%r{mlocate is obsoleted by plocate}) }
+        end
+      end
+
+      context 'with locate set to plocate' do
+        let(:params) do
+          {
+            locate: 'plocate'
+          }
+        end
+
+        case facts[:os]['release']['major']
+        when '7'
+          it { is_expected.to compile.and_raise_error(%r{plocate is not available on EL7}) }
+        else
+          it { is_expected.to contain_package('plocate') }
+          it { is_expected.not_to contain_file('/usr/local/bin/mlocate-wrapper') }
+          it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
+          it { is_expected.to contain_service('plocate-updatedb.timer') }
+
+          it {
+            is_expected.to contain_systemd__dropin_file('period.conf').with(
+              {
+                ensure: 'absent',
+                unit: 'plocate-updatedb.timer',
+              }
+            )
+          }
         end
       end
 
@@ -95,7 +148,7 @@ describe 'mlocate' do
         end
 
         case facts[:os]['release']['major']
-        when '6', '7'
+        when '7'
           it { is_expected.to contain_file('/usr/local/bin/mlocate-wrapper') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_ensure('present') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_minute(%r{^\d\d?}) }
@@ -108,7 +161,7 @@ describe 'mlocate' do
           it { is_expected.to contain_file('/etc/cron.daily/mlocate').with_content(%r{^#.*clobbered.*$}) }
           it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
           it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
-        else
+        when '8', '9', '36'
           it { is_expected.not_to contain_file('/usr/local/bin/mlocate-wrapper') }
           it { is_expected.not_to contain_cron__job('mlocate-puppet') }
           it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
@@ -116,6 +169,15 @@ describe 'mlocate' do
           it { is_expected.to contain_service('mlocate-updatedb.timer') }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_ensure(true) }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
+        else
+          it {
+            is_expected.to contain_service('plocate-updatedb.timer').with(
+              {
+                ensure: true,
+                enable: true,
+              }
+            )
+          }
         end
       end
 
@@ -127,7 +189,7 @@ describe 'mlocate' do
         end
 
         case facts[:os]['release']['major']
-        when '6', '7'
+        when '7'
           it { is_expected.to contain_cron__job('mlocate-puppet').with_ensure('present') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_minute(%r{^\d\d?}) }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_hour(%r{^\d\d?}) }
@@ -137,17 +199,44 @@ describe 'mlocate' do
           it { is_expected.to contain_cron__job('mlocate-puppet').with_user('root') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_command('/usr/local/bin/mlocate-wrapper') }
           it { is_expected.to contain_file('/etc/cron.daily/mlocate').with_content(%r{^#.*clobbered.*$}) }
+        else
+          it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
+          it { is_expected.not_to contain_cron__job('mlocate-puppet') }
+        end
+
+        case facts[:os]['release']['major']
+        when '7'
           it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
           it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
-        else
-          it { is_expected.not_to contain_cron__job('mlocate-puppet') }
-          it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('present') }
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_content(%r{^OnCalendar=$}) }
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_content(%r{^OnCalendar=weekly$}) }
+        when '8', '9', '36'
+          it {
+            is_expected.to contain_systemd__dropin_file('period.conf').with(
+              {
+                ensure: 'present',
+                unit: 'mlocate-updatedb.timer',
+                content: %r{^OnCalendar=weekly$},
+              }
+            )
+          }
+
           it { is_expected.to contain_service('mlocate-updatedb.timer') }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_ensure(true) }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
+        else
+          it { is_expected.to contain_systemd__dropin_file('period.conf') }
+
+          it {
+            is_expected.to contain_systemd__dropin_file('period.conf').with(
+              {
+                ensure: 'present',
+                unit: 'plocate-updatedb.timer',
+                content: %r{^OnCalendar=weekly$},
+              }
+            )
+          }
+
+          it { is_expected.to contain_service('plocate-updatedb.timer').with_ensure(true) }
+          it { is_expected.to contain_service('plocate-updatedb.timer').with_enable(true) }
         end
       end
 
@@ -159,7 +248,7 @@ describe 'mlocate' do
         end
 
         case facts[:os]['release']['major']
-        when '6', '7'
+        when '7'
           it { is_expected.to contain_cron__job('mlocate-puppet').with_ensure('present') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_minute(%r{^\d\d?}) }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_hour(%r{^\d\d?}) }
@@ -169,16 +258,42 @@ describe 'mlocate' do
           it { is_expected.to contain_cron__job('mlocate-puppet').with_user('root') }
           it { is_expected.to contain_cron__job('mlocate-puppet').with_command('/usr/local/bin/mlocate-wrapper') }
           it { is_expected.to contain_file('/etc/cron.daily/mlocate').with_content(%r{^#.*clobbered.*$}) }
-          it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
-          it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
         else
           it { is_expected.not_to contain_cron__job('mlocate-puppet') }
           it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('present') }
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_content(%r{^OnCalendar=monthly$}) }
-          it { is_expected.to contain_service('mlocate-updatedb.timer') }
+        end
+
+        case facts[:os]['release']['major']
+        when '7'
+          it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
+          it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
+        when '8', '9', '36'
+          it {
+            is_expected.to contain_systemd__dropin_file('period.conf').with(
+              {
+                ensure: 'present',
+                content: %r{^OnCalendar=monthly$},
+                unit: 'mlocate-updatedb.timer',
+              }
+            )
+          }
+
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_ensure(true) }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(true) }
+        else
+          it {
+            is_expected.to contain_systemd__dropin_file('period.conf').with(
+              {
+                ensure: 'present',
+                content: %r{^OnCalendar=monthly$},
+                unit: 'plocate-updatedb.timer',
+              }
+            )
+          }
+
+          it { is_expected.to contain_service('plocate-updatedb.timer') }
+          it { is_expected.to contain_service('plocate-updatedb.timer').with_ensure(true) }
+          it { is_expected.to contain_service('plocate-updatedb.timer').with_enable(true) }
         end
       end
 
@@ -190,18 +305,25 @@ describe 'mlocate' do
         end
 
         case facts[:os]['release']['major']
-        when '6', '7'
+        when '7'
           it { is_expected.to contain_cron__job('mlocate-puppet').with_ensure('absent') }
           it { is_expected.to contain_file('/etc/cron.daily/mlocate').with_content(%r{^#.*clobbered.*$}) }
+        else
+          it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('absent') }
+          it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
+          it { is_expected.not_to contain_cron__job('mlocate-puppet') }
+        end
+
+        case facts[:os]['release']['major']
+        when '7'
           it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
           it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
-        else
-          it { is_expected.not_to contain_cron__job('mlocate-puppet') }
-          it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('absent') }
-          it { is_expected.to contain_service('mlocate-updatedb.timer') }
+        when '8', '9', '36'
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_ensure(false) }
           it { is_expected.to contain_service('mlocate-updatedb.timer').with_enable(false) }
+        else
+          it { is_expected.to contain_service('plocate-updatedb.timer').with_ensure(false) }
+          it { is_expected.to contain_service('plocate-updatedb.timer').with_enable(false) }
         end
       end
 
@@ -213,13 +335,21 @@ describe 'mlocate' do
         end
 
         it { is_expected.to contain_exec('force_updatedb') }
-        it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/mlocate/mlocate.db') }
 
         case facts[:os]['release']['major']
-        when '6', '7'
-          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
+        when '7', '8', '9', '36'
+          it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/mlocate/mlocate.db') }
         else
+          it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/plocate/plocate.db') }
+        end
+
+        case facts[:os]['release']['major']
+        when '7'
+          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
+        when '8', '9', '36'
           it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start mlocate-updatedb.service') }
+        else
+          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start plocate-updatedb.service') }
         end
       end
 
@@ -231,20 +361,25 @@ describe 'mlocate' do
         end
 
         it { is_expected.not_to contain_file('/etc/updatedb.conf') }
-        it { is_expected.to contain_package('mlocate').with_ensure('absent') }
         it { is_expected.not_to contain_file('/etc/cron.daily/mlocate') }
         it { is_expected.not_to contain_service('mlocate-updatedb.timer') }
         it { is_expected.not_to contain_exec('force_updatedb') }
 
         case facts[:os]['release']['major']
-        when '7'
-          it { is_expected.not_to contain_systemd__dropin_file('period.conf') }
-          it { is_expected.to contain_cron__job('mlocate-puppet').with_ensure('absent') }
-          it { is_expected.to contain_file('/usr/local/bin/mlocate-wrapper').with_ensure('absent') }
+        when '7', '8', '9', '36'
+          it { is_expected.to contain_package('mlocate').with_ensure('absent') }
         else
-          it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('absent') }
-          it { is_expected.not_to contain_cron__job('mlocate-puppet') }
+          it { is_expected.to contain_package('plocate').with_ensure('absent') }
+        end
+
+        case facts[:os]['release']['major']
+        when '7'
+          it { is_expected.to contain_file('/usr/local/bin/mlocate-wrapper').with_ensure('absent') }
+          it { is_expected.to contain_cron__job('mlocate-puppet').with_ensure('absent') }
+        else
           it { is_expected.not_to contain_file('/usr/local/bin/mlocate-wrapper') }
+          it { is_expected.not_to contain_cron__job('mlocate-puppet') }
+          it { is_expected.to contain_systemd__dropin_file('period.conf').with_ensure('absent') }
         end
       end
     end

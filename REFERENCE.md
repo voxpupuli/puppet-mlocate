@@ -8,7 +8,7 @@
 
 #### Public Classes
 
-* [`mlocate`](#mlocate): mlocate class, install and configure mlocate
+* [`mlocate`](#mlocate): mlocate class, install and configure mlocate or plocate
 
 #### Private Classes
 
@@ -19,7 +19,7 @@
 
 ### <a name="mlocate"></a>`mlocate`
 
-mlocate class, install and configure mlocate
+mlocate class, install and configure mlocate or plocate
 
 #### Examples
 
@@ -36,11 +36,20 @@ class{'mlocate':
 }
 ```
 
+##### Use plocate rather than mlocate
+
+```puppet
+class{ 'mlocate':
+  locate => 'plocate',
+}
+```
+
 #### Parameters
 
 The following parameters are available in the `mlocate` class:
 
 * [`package_names`](#-mlocate--package_names)
+* [`locate`](#-mlocate--locate)
 * [`ensure`](#-mlocate--ensure)
 * [`prunefs`](#-mlocate--prunefs)
 * [`prune_bind_mounts`](#-mlocate--prune_bind_mounts)
@@ -52,11 +61,17 @@ The following parameters are available in the `mlocate` class:
 
 ##### <a name="-mlocate--package_names"></a>`package_names`
 
-Data type: `Array[String[1]]`
+Data type: `Optional[Array[String[1]]]`
 
-List of packages to track
+Deprecated
 
-Default value: `['mlocate',]`
+Default value: `undef`
+
+##### <a name="-mlocate--locate"></a>`locate`
+
+Data type: `Enum['mlocate','plocate']`
+
+Use plocate or mlocate, default per OS in hiera
 
 ##### <a name="-mlocate--ensure"></a>`ensure`
 
