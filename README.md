@@ -16,22 +16,26 @@
 <a id="module-description"></a>
 ## Module Description
 
-* Install mlocate package
+* Install mlocate or plocate package
 * Configures `/etc/updatedb.conf`
-* Maintains a cron or timer to run mlocate.
+* Maintains a cron or timer to run mlocate or plocate.
 
 <a id="setup"></a>
 ## Setup
 
-Install mlocate and configure with default configuration.
+Install mlocate or plocate and configure with default configuration.
 ```puppet
 include mlocate
 ```
+
+Fedora 37 and newer will install plocate always since mlocate will
+be obsoleted by the plocate RPM allways.
 
 Configure everything we can.
 ```puppet
 class{'mlocate':
   ensure            => true,
+  locate            => 'plocate',
   prunefs           => ['9p', 'afs', 'autofs', 'bdev'],
   prune_bind_mounts => true,
   prunenames        => ['.git', 'CVS'],
@@ -54,10 +58,9 @@ mlocate::prunepaths:
   - /cvmfs
 ```
 
-If you wish to switch to `plocate` instead you can use the `package_names` parameter to switch to that implementation instead.
+If you wish to switch to `plocate` instead you can use the `locate` parameter to switch to that implementation instead.
 
 ```yaml
 ---
-mlocate::package_names:
-  - plocate
+mlocate::locate: plocate
 ```
