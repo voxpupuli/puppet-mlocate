@@ -2,13 +2,73 @@
 mlocate::package_cron: /etc/cron.daily/mlocate
 
 mlocate::prunefs:
-  - fuse.sshfs
-  - fuse.glusterfs
+  - 9p
+  - afs
+  - anon_inodefs
+  - auto
+  - autofs
+  - bdev
+  - binfmt_misc
   - ceph
+  - cgroup
+  - cifs
+  - coda
+  - configfs
+  - cpuset
+  - debugfs
+  - devpts
+  - ecryptfs
+  - exofs
+  - fuse
   - fuse.ceph
+  - fuse.glusterfs
+  - fuse.sshfs
+  - fusectl
+  - gfs
+  - gfs2
+  - gpfs
+  - hugetlbfs
+  - inotifyfs
+  - iso9660
+  - jffs2
+  - lustre
+  - mqueue
+  - ncpfs
+  - nfs
+  - nfs4
+  - nfsd
+  - pipefs
+  - proc
+  - ramfs
+  - rootfs
+  - rpc_pipefs
+  - securityfs
+  - selinuxfs
+  - sfs
+  - sockfs
+  - sysfs
+  - tmpfs
+  - ubifs
+  - udf
+  - usbfs
 
 mlocate::prunepaths:
+  - /afs
+  - /media
   - /mnt
+  - /net
+  - /sfs
+  - /tmp
+  - /udev
+  - /var/cache/ccache
   - /var/cache/yum
-  - /var/lib/yum/yumdb
   - /var/lib/ceph
+  - /var/lib/yum/yumdb
+  - /var/spool/cups
+  - /var/spool/squid
+  - /var/tmp
+
+mlocate::prunenames:
+  - .git
+  - .hg
+  - .svn
