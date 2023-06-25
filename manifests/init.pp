@@ -31,10 +31,10 @@ class mlocate (
   Enum['mlocate','plocate']                   $locate,
   Optional[Array[String[1]]]                  $package_names = undef,
   Boolean                                     $ensure = true,
-  Array[String[1]]                            $prunefs = [],
+  Optional[Array[String[1]]]                  $prunefs = undef,
   Boolean                                     $prune_bind_mounts = true,
-  Array[Stdlib::Unixpath]                     $prunepaths = [],
-  Array[String[1]]                            $prunenames = [],
+  Optional[Array[Stdlib::Unixpath,1]]         $prunepaths = undef,
+  Optional[Array[String[1]]]                  $prunenames = undef,
   Enum['infinite','daily','weekly','monthly'] $period = 'daily',
   Optional[Stdlib::Unixpath]                  $package_cron = undef,
   Boolean                                     $force_updatedb = false,
@@ -44,8 +44,9 @@ class mlocate (
     fail('Setting \$package_names explicitly is deprecated, the new locate parameter can be used to specify mlocate or plocate')
   }
 
-  if $facts['os']['name'] == 'Fedora' and  versioncmp($facts['os']['release']['major'],'37') >= 0 and $locate == 'mlocate' {
-    fail('mlocate is obsoleted by plocate and \$locate cannot be set \'mlocate\'')
+  if ( ($facts['os']['name'] == 'Fedora' and  versioncmp($facts['os']['release']['major'],'37') >= 0 ) or
+  ($facts['os']['family'] != 'RedHat' ) ) and $locate == 'mlocate' {
+    fail('mlocate is obsoleted by plocate and \$locate cannot be set to \'mlocate\'')
   }
 
   if $facts['os']['release']['major'] == '7' and $locate == 'plocate' {
@@ -53,20 +54,9 @@ class mlocate (
   }
 
   # Is the package cron or timer based?
-  case $facts['os']['family'] {
-    'RedHat': {
-      case $facts['os']['release']['major'] {
-        '7': {
-          $periodic_method = 'cron'
-        }
-        default: {
-          $periodic_method = 'timer'
-        }
-      }
-    }
-    default: {
-      fail('Only os.family RedHat is supported')
-    }
+  $periodic_method = ( $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7') ? {
+    true    => 'cron',
+    default => 'timer',
   }
 
   Class['mlocate::install'] -> Class['mlocate::config']

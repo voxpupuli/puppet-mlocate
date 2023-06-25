@@ -8,7 +8,8 @@ defaults:
 hierarchy:
   - name: 'Operating System Family and Release'
     path: '%{facts.os.family}-%{facts.os.release.major}.yaml'
-
+  - name: 'Operating System Family'
+    path: '%{facts.os.family}.yaml'
   - name: 'common'
     path: 'common.yaml'
 

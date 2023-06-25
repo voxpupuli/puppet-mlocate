@@ -83,11 +83,11 @@ Default value: `true`
 
 ##### <a name="-mlocate--prunefs"></a>`prunefs`
 
-Data type: `Array[String[1]]`
+Data type: `Optional[Array[String[1]]]`
 
 List of filesystem types to ignore
 
-Default value: `[]`
+Default value: `undef`
 
 ##### <a name="-mlocate--prune_bind_mounts"></a>`prune_bind_mounts`
 
@@ -99,19 +99,19 @@ Default value: `true`
 
 ##### <a name="-mlocate--prunepaths"></a>`prunepaths`
 
-Data type: `Array[Stdlib::Unixpath]`
+Data type: `Optional[Array[Stdlib::Unixpath,1]]`
 
 List of file systems paths not to search
 
-Default value: `[]`
+Default value: `undef`
 
 ##### <a name="-mlocate--prunenames"></a>`prunenames`
 
-Data type: `Array[String[1]]`
+Data type: `Optional[Array[String[1]]]`
 
 List of directory or files names to match adn not include.
 
-Default value: `[]`
+Default value: `undef`
 
 ##### <a name="-mlocate--period"></a>`period`
 

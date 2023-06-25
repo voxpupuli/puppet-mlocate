@@ -15,10 +15,6 @@ describe 'mlocate class' do
       apply_manifest(pp, catch_changes: true)
     end
 
-    describe package('mlocate') do
-      it { is_expected.to be_installed }
-    end
-
     describe file('/etc/updatedb.conf') do
       it { is_expected.to be_file }
     end
@@ -36,10 +32,6 @@ describe 'mlocate class' do
       # Run it twice and test for idempotency
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
-    end
-
-    describe file('/var/lib/mlocate/mlocate.db') do
-      it { is_expected.to be_file }
     end
 
     describe command('/usr/bin/locate /etc/passwd') do
@@ -61,7 +53,7 @@ describe 'mlocate class' do
       apply_manifest(pp, catch_changes: true)
     end
 
-    describe package('mlocate') do
+    describe package(%w[mlocate plocate]) do
       it { is_expected.not_to be_installed }
     end
   end
