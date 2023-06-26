@@ -370,18 +370,13 @@ describe 'mlocate' do
           it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/plocate/plocate.db') }
         end
 
-        case facts[:os]['family']
-        when 'Debian'
-          it { is_expected.to contain_exec('force_updatedb').with_command('/bin/systemctl start plocate-updatedb.service') }
+        case facts[:os]['release']['major']
+        when '7'
+          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
+        when '8', '9', '36'
+          it { is_expected.to contain_exec('force_updatedb').with_command('systemctl start mlocate-updatedb.service') }
         else
-          case facts[:os]['release']['major']
-          when '7'
-            it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
-          when '8', '9', '36'
-            it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start mlocate-updatedb.service') }
-          else
-            it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start plocate-updatedb.service') }
-          end
+          it { is_expected.to contain_exec('force_updatedb').with_command('systemctl start plocate-updatedb.service') }
         end
       end
 
