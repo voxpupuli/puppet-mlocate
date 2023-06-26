@@ -1,8 +1,8 @@
 <%- |
-  Optional[Array[String[1]]] $prunefs = undef,
+  Array[String[1]] $prunefs,
   Boolean $prune_bind_mounts,
-  Optional[Array[String[1]]] $prunepaths = undef,
-  Optional[Array[String[1]]] $prunenames = undef,
+  Array[String[1]] $prunepaths,
+  Array[String[1]] $prunenames,
 | -%>
 # updatedb.conf is maintained with puppet.
 
@@ -11,12 +11,12 @@ PRUNE_BIND_MOUNTS = "yes"
 <%- } else { -%>
 PRUNE_BIND_MOUNTS = "no"
 <%- } -%>
-<% if $prunefs { -%>
+<% unless $prunefs.empty() { -%>
 PRUNEFS = "<%= join(sort($prunefs),' ') %>"
 <% } -%>
-<% if $prunenames { -%>
+<% unless $prunenames.empty() { -%>
 PRUNENAMES = "<%= join(sort($prunenames),' ') %>"
 <% } -%>
-<% if $prunepaths { -%>
+<% unless $prunepaths.empty() { -%>
 PRUNEPATHS = "<%= join(sort($prunepaths),' ') %>"
 <% } -%>

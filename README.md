@@ -58,6 +58,25 @@ mlocate::prunepaths:
   - /cvmfs
 ```
 
+To override all values and set and exact parameter the `lookup_options` will need to be re-defined
+
+```yaml
+lookup_options:
+  mlocate::prunepaths:
+    merge: unique
+
+mocate::prunepaths:
+  - /set/prunepaths/to/this/path/and/drop/defaults
+```
+
+or just set via parameters:
+
+```puppet
+class{ 'mlocate':
+  prunepaths => ['just', 'this'],
+}
+```
+
 If you wish to switch to `plocate` instead you can use the `locate` parameter to switch to that implementation instead.
 
 ```yaml
