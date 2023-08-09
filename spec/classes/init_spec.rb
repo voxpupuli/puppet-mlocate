@@ -17,12 +17,16 @@ describe 'mlocate' do
         it { is_expected.not_to contain_exec('force_updatedb') }
 
         # Test default contents of the configurations files.
+
+        # Use the exact match tests up to Redhat 9 since they exist but give up on it after
+        # that and use the simpler tests - testing single hiera files with no merge is not needed
+        # and more boring that I want to do.
         # Note the defaults need to be sorted firt as puppet does this
         case facts[:os]['release']['major']
         when '7'
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s+=\s+"9p afs anon_inodefs auto autofs bdev binfmt_misc ceph cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.ceph fuse.glusterfs fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs"$}) }
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s+=\s+"/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/cache/yum /var/lib/ceph /var/lib/yum/yumdb /var/spool/cups /var/spool/squid /var/tmp"$}) }
-        else
+        when '8', '9'
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s+=\s+"9p afs anon_inodefs auto autofs bdev binfmt_misc ceph cgroup cifs coda configfs cpuset debugfs devpts ecryptfs exofs fuse fuse.ceph fuse.sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs"$}) }
 
           if facts[:os]['release']['major'] == '8'
@@ -32,11 +36,34 @@ describe 'mlocate' do
           end
         end
 
-        case facts[:os]['release']['major']
-        when '7'
-          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s+=\s+"\.git \.hg \.svn"$}) }
+        # End of tests that will not be extended beyond RHEL9
+
+        # The simpler tests for now and the future. family is redhat, debian or archlinux currently
+        #
+
+        case facts[:os]['family']
+        when 'RedHat', 'Archlinux'
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s=\s"/afs\s.*\s/var/tmp"$}) }
         else
-          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s+=\s+"\.arch-ids \.bzr \.git \.hg \.svn CVS \{arch\}"$}) }
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s=\s"/media\s.*\s/var/spool"$}) }
+        end
+
+        case facts[:os]['family']
+        when 'Debian'
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s=\s"NFS\s.*\susbfs"$}) }
+        when 'RedHat'
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s=\s"9p\s.*\susbfs"$}) }
+        else
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEFS\s=\s"9p\s.*\svboxsf"$}) }
+        end
+
+        case [facts[:os]['family'], facts[:os]['release']['major']]
+        when %w[RedHat 8], %w[RedHat 9], %w[RedHat 36], %w[RedHat 37], %w[RedHat 38]
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s=\s"\.arch-ids\s.*\s\{arch\}"$}) }
+        when %w[Debian 11], %w[Debian 12]
+          it { is_expected.to contain_file('/etc/updatedb.conf').without_content(%r{^PRUNENAMES.*$}) }
+        else # only arch and rhel7 left
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s=\s"\.git\s.*\s\.svn"$}) }
         end
 
         it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNE_BIND_MOUNTS\s+=\s+"yes"$}) }
@@ -343,13 +370,18 @@ describe 'mlocate' do
           it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/plocate/plocate.db') }
         end
 
-        case facts[:os]['release']['major']
-        when '7'
-          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
-        when '8', '9', '36'
-          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start mlocate-updatedb.service') }
+        case facts[:os]['family']
+        when 'Debian'
+          it { is_expected.to contain_exec('force_updatedb').with_command('/bin/systemctl start plocate-updatedb.service') }
         else
-          it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start plocate-updatedb.service') }
+          case facts[:os]['release']['major']
+          when '7'
+            it { is_expected.to contain_exec('force_updatedb').with_command('/usr/local/bin/mlocate-wrapper') }
+          when '8', '9', '36'
+            it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start mlocate-updatedb.service') }
+          else
+            it { is_expected.to contain_exec('force_updatedb').with_command('/usr/bin/systemctl start plocate-updatedb.service') }
+          end
         end
       end
 

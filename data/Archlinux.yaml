@@ -1,5 +1,6 @@
 ---
-mlocate::package_cron: /etc/cron.daily/mlocate
+
+mlocate::locate: plocate
 
 mlocate::prunefs:
   - 9p
@@ -9,24 +10,25 @@ mlocate::prunefs:
   - autofs
   - bdev
   - binfmt_misc
-  - ceph
   - cgroup
   - cifs
   - coda
   - configfs
   - cpuset
+  - cramfs
   - debugfs
   - devpts
+  - devtmpfs
   - ecryptfs
   - exofs
+  - ftpfs
   - fuse
-  - fuse.ceph
-  - fuse.glusterfs
+  - fuse.encfs
+  - fuse.s3fs
   - fuse.sshfs
   - fusectl
   - gfs
   - gfs2
-  - gpfs
   - hugetlbfs
   - inotifyfs
   - iso9660
@@ -45,12 +47,16 @@ mlocate::prunefs:
   - securityfs
   - selinuxfs
   - sfs
+  - shfs
+  - smbfs
   - sockfs
+  - sshfs
   - sysfs
   - tmpfs
   - ubifs
   - udf
   - usbfs
+  - vboxsf
 
 mlocate::prunepaths:
   - /afs
@@ -60,12 +66,11 @@ mlocate::prunepaths:
   - /sfs
   - /tmp
   - /udev
-  - /var/cache/ccache
-  - /var/cache/yum
-  - /var/lib/ceph
-  - /var/lib/yum/yumdb
-  - /var/spool/cups
-  - /var/spool/squid
+  - /var/cache
+  - /var/lib/pacman/local
+  - /var/lock
+  - /var/run
+  - /var/spool
   - /var/tmp
 
 mlocate::prunenames:

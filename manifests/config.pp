@@ -124,7 +124,10 @@ class mlocate::config (
 
     # End of cron based systemd
   } elsif $periodic_method == 'timer' {
-    $_updatedb_command = "/usr/bin/systemctl start ${locate}-updatedb.service"
+    $_updatedb_command = $facts['os']['family'] ? {
+      'Debian' => "/bin/systemctl start ${locate}-updatedb.service",
+      default  => "/usr/bin/systemctl start ${locate}-updatedb.service",
+    }
 
     # daily is default so no dropin required.
     case $period {

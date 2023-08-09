@@ -11,6 +11,12 @@ PRUNE_BIND_MOUNTS = "yes"
 <%- } else { -%>
 PRUNE_BIND_MOUNTS = "no"
 <%- } -%>
+<% unless $prunefs.empty() { -%>
 PRUNEFS = "<%= join(sort($prunefs),' ') %>"
+<% } -%>
+<% unless $prunenames.empty() { -%>
 PRUNENAMES = "<%= join(sort($prunenames),' ') %>"
+<% } -%>
+<% unless $prunepaths.empty() { -%>
 PRUNEPATHS = "<%= join(sort($prunepaths),' ') %>"
+<% } -%>
