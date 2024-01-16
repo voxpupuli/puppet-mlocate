@@ -45,7 +45,7 @@ describe 'mlocate' do
         when 'RedHat', 'Archlinux'
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s=\s"/afs\s.*\s/var/tmp"$}) }
         else
-          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s=\s"/media\s.*\s/var/spool"$}) }
+          it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNEPATHS\s=\s".*/media\s.*\s/var/spool"$}) }
         end
 
         case facts[:os]['family']
