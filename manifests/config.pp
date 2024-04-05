@@ -171,7 +171,7 @@ class mlocate::config (
   if $force_updatedb and $ensure {
     exec { 'force_updatedb':
       command => $_updatedb_command,
-      creates => "/var/lib/${locate}/${locate}.db",
+      unless  => "/usr/bin/test -s /var/lib/${locate}/${locate}.db",
     }
   }
 }

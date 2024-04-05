@@ -365,9 +365,9 @@ describe 'mlocate' do
 
         case facts[:os]['release']['major']
         when '7', '8', '9', '36'
-          it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/mlocate/mlocate.db') }
+          it { is_expected.to contain_exec('force_updatedb').with_unless('/usr/bin/test -s /var/lib/mlocate/mlocate.db') }
         else
-          it { is_expected.to contain_exec('force_updatedb').with_creates('/var/lib/plocate/plocate.db') }
+          it { is_expected.to contain_exec('force_updatedb').with_unless('/usr/bin/test -s /var/lib/plocate/plocate.db') }
         end
 
         case facts[:os]['family']
