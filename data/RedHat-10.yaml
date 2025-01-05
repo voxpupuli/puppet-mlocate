@@ -1,0 +1,105 @@
+---
+
+mlocate::locate: plocate
+
+mlocate::prunefs:
+  - 9p
+  - afs
+  - anon_inodefs
+  - auto
+  - autofs
+  - bdev
+  - binfmt_misc
+  - ceph
+  - cgroup
+  - cgroup2
+  - cifs
+  - coda
+  - configfs
+  - cpuset
+  - curlftpfs
+  - debugfs
+  - devpts
+  - devtmpfs
+  - ecryptfs
+  - efivarfs
+  - exofs
+  - ftpfs
+  - fuse
+  - fuse.ceph
+  - fuse.cryfs
+  - fuse.encfs
+  - fuse.glusterfs
+  - fuse.fvfsd-fuse
+  - fuse.mfs
+  - fuse.portal
+  - fuse.rclone
+  - fuse.rozofs
+  - fuse.sshfs
+  - fusec
+  - fusectl
+  - fusesmb
+  - gfs
+  - gfs2
+  - gpfs
+  - hugetlbfs
+  - inotifyfs
+  - iso9660
+  - jffs2
+  - lustre
+  - lustre_lite
+  - mfs
+  - mqueue
+  - ncpfs
+  - nfs
+  - nfs4
+  - nfsd
+  - ocfs
+  - ocfs2
+  - pipefs
+  - proc
+  - pstore
+  - ramfs
+  - rootfs
+  - rpc_pipefs
+  - securityfs
+  - selinuxfs
+  - sfs
+  - smbfs
+  - sockfs
+  - sysfs
+  - tmpfs
+  - tracefs
+  - ubifs
+  - udev
+  - udf
+  - usbfs
+
+mlocate::prunepaths:
+  - /afs
+  - /dev
+  - /media
+  - /mnt
+  - /net
+  - /proc
+  - /run
+  - /sfs
+  - /sys
+  - /sysroot/ostree/deploy
+  - /tmp
+  - /udev
+  - /var/cache
+  - /var/lib/ceph
+  - /var/lib/dnf
+  - /var/lib/mock
+  - /var/spool
+  - /var/tmp
+
+mlocate::prunenames:
+  - '{arch}'
+  - .arch-ids
+  - .bzr
+  - .git
+  - .hg
+  - .svn
+  - CVS
