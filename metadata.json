@@ -1,6 +1,6 @@
 {
   "name": "puppet-mlocate",
-  "version": "3.0.0",
+  "version": "3.0.1-rc0",
   "author": "Vox Pupuli",
   "project_page": "https://github.com/voxpupuli/puppet-mlocate",
   "summary": "Manages the /etc/updatedb.conf file and service",
