@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/voxpupuli/puppet-mlocate/tree/v3.0.0) (2025-01-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v2.1.0...v3.0.0)
+
+**Breaking changes:**
+
+- drop support for Fedora 36,37,38 add support for Fedora 40,41 [\#63](https://github.com/voxpupuli/puppet-mlocate/pull/63) ([TheMeier](https://github.com/TheMeier))
+- drop support for RedHat 7, CentOS 7/8, OracleLinux, ScientificLinux [\#62](https://github.com/voxpupuli/puppet-mlocate/pull/62) ([TheMeier](https://github.com/TheMeier))
+- Support plocate alternative to mlocate [\#42](https://github.com/voxpupuli/puppet-mlocate/pull/42) ([traylenator](https://github.com/traylenator))
+- Drop Puppet 6 support [\#40](https://github.com/voxpupuli/puppet-mlocate/pull/40) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Stub out settings to match/extend EL10's default config [\#60](https://github.com/voxpupuli/puppet-mlocate/pull/60) ([jcpunk](https://github.com/jcpunk))
+- update puppet-systemd upper bound to 8.0.0 [\#54](https://github.com/voxpupuli/puppet-mlocate/pull/54) ([TheMeier](https://github.com/TheMeier))
+- puppet/cron: Allow 4.x [\#50](https://github.com/voxpupuli/puppet-mlocate/pull/50) ([zilchms](https://github.com/zilchms))
+- puppet/systemd: Allow 6.x [\#49](https://github.com/voxpupuli/puppet-mlocate/pull/49) ([zilchms](https://github.com/zilchms))
+- Declare Puppet 8 support [\#45](https://github.com/voxpupuli/puppet-mlocate/pull/45) ([traylenator](https://github.com/traylenator))
+- Allow  stdlib v9, cron v3 and systemd v6 [\#44](https://github.com/voxpupuli/puppet-mlocate/pull/44) ([traylenator](https://github.com/traylenator))
+- Support Debian 11, 12 and Archlinux [\#43](https://github.com/voxpupuli/puppet-mlocate/pull/43) ([traylenator](https://github.com/traylenator))
+- bump puppet/systemd to \< 5.0.0 [\#38](https://github.com/voxpupuli/puppet-mlocate/pull/38) ([jhoblitt](https://github.com/jhoblitt))
+
+**Fixed bugs:**
+
+- Fix `force_update` on Archlinux [\#51](https://github.com/voxpupuli/puppet-mlocate/pull/51) ([Valantin](https://github.com/Valantin))
+- fix tests [\#47](https://github.com/voxpupuli/puppet-mlocate/pull/47) ([zilchms](https://github.com/zilchms))
+- Don't index /var/cache/{dnf,yum} on RedHat systems [\#37](https://github.com/voxpupuli/puppet-mlocate/pull/37) ([jcpunk](https://github.com/jcpunk))
+
 ## [v2.1.0](https://github.com/voxpupuli/puppet-mlocate/tree/v2.1.0) (2022-07-03)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v2.0.0...v2.1.0)
