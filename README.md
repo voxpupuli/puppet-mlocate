@@ -84,7 +84,7 @@ If you wish to switch to `plocate` instead you can use the `locate` parameter to
 mlocate::locate: plocate
 ```
 
-Using plocate is the default for Archlinux, Debian 11 and newer, Fedora 37 and newer and RHEL 10 and newer
+Using plocate is the default for Archlinux, Debian 11 and newer, Ubuntu 22.04 and newer, Fedora 37 and newer and RHEL 10 and newer
 
 * mlocate is the default for RHEL 7, 8 and 9 and also Fedora 36.
 * plocate is the default for Debian and any newer Fedoras or RHELs.
