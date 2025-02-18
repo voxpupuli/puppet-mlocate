@@ -60,7 +60,7 @@ describe 'mlocate' do
         case [facts[:os]['family'], facts[:os]['release']['major']]
         when %w[RedHat 8], %w[RedHat 9], %w[RedHat 36], %w[RedHat 37], %w[RedHat 38]
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s=\s"\.arch-ids\s.*\s\{arch\}"$}) }
-        when %w[Debian 11], %w[Debian 12]
+        when %w[Debian 11], %w[Debian 12], %w[Debian 22.04], %w[Debian 24.04]
           it { is_expected.to contain_file('/etc/updatedb.conf').without_content(%r{^PRUNENAMES.*$}) }
         else # only arch and rhel7 left
           it { is_expected.to contain_file('/etc/updatedb.conf').with_content(%r{^PRUNENAMES\s=\s"\.git\s.*\s\.svn"$}) }
