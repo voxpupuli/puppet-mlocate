@@ -72,6 +72,8 @@ Data type: `Enum['mlocate','plocate']`
 
 Use plocate or mlocate, default per OS in hiera
 
+Default value: `'mlocate'`
+
 ##### <a name="-mlocate--ensure"></a>`ensure`
 
 Data type: `Boolean`
