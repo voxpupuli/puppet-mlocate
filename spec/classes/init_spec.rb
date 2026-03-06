@@ -76,7 +76,7 @@ describe 'mlocate' do
       context 'with locate set to mlocate' do
         let(:params) do
           {
-            locate: 'mlocate'
+            locate: 'mlocate',
           }
         end
 
@@ -96,7 +96,7 @@ describe 'mlocate' do
               {
                 ensure: 'absent',
                 unit: 'mlocate-updatedb.timer',
-              }
+              },
             )
           }
 
@@ -111,7 +111,7 @@ describe 'mlocate' do
       context 'with locate set to plocate' do
         let(:params) do
           {
-            locate: 'plocate'
+            locate: 'plocate',
           }
         end
 
@@ -125,7 +125,7 @@ describe 'mlocate' do
             {
               ensure: 'absent',
               unit: 'plocate-updatedb.timer',
-            }
+            },
           )
         }
       end
@@ -136,7 +136,7 @@ describe 'mlocate' do
             prunefs: %w[foo bar],
             prune_bind_mounts: false,
             prunepaths: ['/ythis', '/xthat'],
-            prunenames: %w[way no]
+            prunenames: %w[way no],
           }
         end
 
@@ -149,7 +149,7 @@ describe 'mlocate' do
       context 'with period set to daily (the default in package)' do
         let(:params) do
           {
-            period: 'daily'
+            period: 'daily',
           }
         end
 
@@ -165,7 +165,7 @@ describe 'mlocate' do
               {
                 ensure: true,
                 enable: true,
-              }
+              },
             )
           }
         end
@@ -174,7 +174,7 @@ describe 'mlocate' do
       context 'with period set to weekly (the default in package)' do
         let(:params) do
           {
-            period: 'weekly'
+            period: 'weekly',
           }
         end
 
@@ -186,7 +186,7 @@ describe 'mlocate' do
                 ensure: 'present',
                 unit: 'mlocate-updatedb.timer',
                 content: %r{^OnCalendar=weekly$},
-              }
+              },
             )
           }
 
@@ -202,7 +202,7 @@ describe 'mlocate' do
                 ensure: 'present',
                 unit: 'plocate-updatedb.timer',
                 content: %r{^OnCalendar=weekly$},
-              }
+              },
             )
           }
 
@@ -214,7 +214,7 @@ describe 'mlocate' do
       context 'with period set to monthly (the default in package)' do
         let(:params) do
           {
-            period: 'monthly'
+            period: 'monthly',
           }
         end
 
@@ -226,7 +226,7 @@ describe 'mlocate' do
                 ensure: 'present',
                 content: %r{^OnCalendar=monthly$},
                 unit: 'mlocate-updatedb.timer',
-              }
+              },
             )
           }
 
@@ -239,7 +239,7 @@ describe 'mlocate' do
                 ensure: 'present',
                 content: %r{^OnCalendar=monthly$},
                 unit: 'plocate-updatedb.timer',
-              }
+              },
             )
           }
 
@@ -252,7 +252,7 @@ describe 'mlocate' do
       context 'with period set to infinite (never run)' do
         let(:params) do
           {
-            period: 'infinite'
+            period: 'infinite',
           }
         end
 
@@ -271,7 +271,7 @@ describe 'mlocate' do
       context 'with force_updatedb set to true' do
         let(:params) do
           {
-            force_updatedb: true
+            force_updatedb: true,
           }
         end
 
@@ -300,7 +300,7 @@ describe 'mlocate' do
       context 'with ensure set to false' do
         let(:params) do
           {
-            ensure: false
+            ensure: false,
           }
         end
 
