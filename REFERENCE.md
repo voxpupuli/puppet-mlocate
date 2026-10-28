@@ -129,4 +129,3 @@ Data type: `Boolean`
 Should puppet run updatedb if no database already exists.
 
 Default value: `false`
-
