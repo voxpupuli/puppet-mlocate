@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.1.0](https://github.com/voxpupuli/puppet-mlocate/tree/v4.1.0) (2026-10-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- puppet/systemd: Allow 11.x [\#86](https://github.com/voxpupuli/puppet-mlocate/pull/86) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#85](https://github.com/voxpupuli/puppet-mlocate/pull/85) ([sebastianrakel](https://github.com/sebastianrakel))
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-mlocate/tree/v4.0.0) (2025-08-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-mlocate/compare/v3.0.0...v4.0.0)
